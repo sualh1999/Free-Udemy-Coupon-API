@@ -52,5 +52,5 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 
 ## 📩 **Contact:**
 
-Have questions? Reach out via [[https://t.me/huam3](Salih)] 
+Have questions? Reach out via [[Salih](https://t.me/huam3)] 
 
