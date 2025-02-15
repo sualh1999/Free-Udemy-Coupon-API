@@ -29,19 +29,54 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
+BUILT_IN_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rest_framework',
-    
-    'api',
+    "django.contrib.sites",
 ]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+
+    #all-auth
+    'allauth',
+    'allauth.account',
+
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.telegram',
+
+
+]
+
+CUSTOM_APPS = [
+  'api',
+]
+
+INSTALLED_APPS = BUILT_IN_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
+
+    
+    
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         'APP': {
+#             'client_id': '123',
+#             'secret': '456',
+#             'key': ''
+#         }
+#     }
+# }
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -71,6 +106,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "allauth.account.middleware.AccountMiddleware",
+
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -78,7 +116,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,6 +127,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
@@ -145,3 +188,59 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID = 1  
+
+ACCOUNT_EMAIL_VERIFICATION = "none"  
+
+LOGIN_REDIRECT_URL = "/api"  
+LOGOUT_REDIRECT_URL = "/api"  
+
+ACCOUNT_RATE_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+SOCIALACCOUNT_QUERY_EMAIL=ACCOUNT_EMAIL_REQUIRED 
+SOCIALACCOUNT_EMAIL_REQUIRED=ACCOUNT_EMAIL_REQUIRED 
+SOCIALACCOUNT_STORE_TOKENS=False
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.12',
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+    
+}

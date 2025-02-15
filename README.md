@@ -42,8 +42,8 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 ## 🛠 **To-Do List (Planned Features):**
 
 - ✅ Implement token-based authentication.
-- ⏳ Allow users to generate their own tokens.
 - ⏳ Add signup & login functionality.
+- ⏳ Allow users to generate their own tokens.
 - ⏳ Implement user roles & permissions.
 - ⏳ Create an admin panel for managing courses & users.
 - ⏳ Add a frontend UI for easier interaction.
