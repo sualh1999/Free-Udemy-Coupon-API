@@ -1,0 +1,52 @@
+{% extends "account/base_manage.html" %}
+{% load allauth i18n %}
+
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
+
+{% block content %}
+    <div class="signout-container">
+        <h1>{% trans "Sign Out" %}</h1>
+        <p>{% trans 'Are you sure you want to sign out?' %}</p>
+        {% url 'account_logout' as action_url %}
+        <form method="post" action="{{ action_url }}" class="signout-form">
+            {% csrf_token %}
+            {{ redirect_field }}
+            <button type="submit" class="signout-button">{% trans 'Sign Out' %}</button>
+        </form>
+    </div>
+
+    <style>
+        .signout-container {
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #dc3545;
+        }
+        p {
+            margin: 15px 0;
+        }
+        .signout-form {
+            margin-top: 20px;
+        }
+        .signout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .signout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+{% endblock content %}
