@@ -1,7 +1,10 @@
 import uuid
 from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
+from django.utils.timezone import now
 from django.db import models
+
+User = get_user_model()
 
 class Coupon(models.Model):
     coupon_str = models.CharField(max_length=255)
@@ -58,3 +61,13 @@ class CustomToken(models.Model):
         return self.key
 
 
+class UserDailyActivity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(default=now) 
+    request_count = models.IntegerField(default=0) 
+    # courses_accessed = models.JSONField(default=list, blank=True)
+    class Meta:
+        unique_together = ('user', 'date')  # Ensure one record per user per day
+
+    def __str__(self):
+        return self.user.username + " | " + str(self.date.day)

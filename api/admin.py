@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Coupon, CourseDetail, CustomToken
+from .models import Coupon, CourseDetail, CustomToken, UserDailyActivity
 
 admin.site.register(CustomToken)
+admin.site.register(UserDailyActivity)
 
 
 @admin.register(Coupon)

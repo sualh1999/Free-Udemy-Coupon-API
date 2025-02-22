@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get free Udemy course coupons - Daily updated list of premium courses available with 100% discount coupons">
-    <title>CouponHub - Free Udemy Courses & Premium Learning Resources</title>
+    <title>CouponHub - Free Udemy Course Coupons API</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .btn {
@@ -23,12 +22,29 @@
         .btn-primary:hover { background-color: #059669; }
         .btn-secondary { background-color: #f3f4f6; color: #111827; }
         .btn-secondary:hover { background-color: #e5e7eb; }
-        .token-box { background-color: #f0fdf4; border: 2px dashed #34d399; }
-        .course-card:hover .course-image { transform: scale(1.03); }
+        .token-box { background-color: #f0fdf4; border: 2px dashed #34d399; max-width: 500px; }
+        pre { background-color: #1f2937; color: #f3f4f6; max-height: 400px; overflow: auto; }
+        .code-tab { cursor: pointer; transition: all 0.2s; }
+        .code-tab.active { background-color: #e5e7eb; }
+        .hl-key { color: #f472b6; }    /* Pink for keys */
+        .hl-str { color: #34d399; }    /* Green for strings */
+        .hl-num { color: #60a5fa; }    /* Blue for numbers */
+        .hl-com { color: #6b7280; }    /* Gray for comments */
+        details > summary {
+            list-style: none;
+            display: inline-block;
+            padding-left: 10px;
+          }
+          details > summary::-webkit-details-marker {
+            display: none;
+          }
+          .ml-4 {
+            margin-left: 1rem;
+          }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto p-6">
         <!-- Header -->
         <header class="flex justify-between items-center py-6">
             <h1 class="text-3xl font-bold text-emerald-600">
@@ -43,21 +59,20 @@
                 {% else %}
                     <div class="flex items-center gap-3">
                         <a href="{% provider_login_url 'google' %}" class="btn btn-secondary px-3 py-2">
-                            <!-- Google -->
                             <span class="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#ea4335]">
                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                    </svg>
+                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                                </svg>
                             </span>
                             &nbsp;Google
                         </a>
                         <a href="{% provider_login_url 'github' %}" class="btn btn-secondary px-3 py-2">
-                            <!-- Github -->
                             <span class="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#333]">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
-                                <path
-                                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+                                    <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
                                 </svg>
                             </span> &nbsp;Github
                         </a>
@@ -69,189 +84,105 @@
         <!-- Main Content -->
         <main>
             <!-- Hero Section -->
-            <section class="text-center py-16">
-                <h2 class="text-5xl font-extrabold text-gray-800 mb-6 leading-tight">
-                    Unlock Premium Udemy Courses<br>
-                    <span class="text-emerald-600">100% Free</span>
+            <section class="text-center py-12">
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-6">
+                    Access Premium Udemy Courses for Free
                 </h2>
-                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                    Access thousands of high-value courses with our exclusive coupons. Updated daily with new opportunities 
-                    for your learning journey.
+                <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                    CouponHub provides developers with a powerful API to access constantly updated Udemy course coupons. 
+                    Our service helps thousands of learners worldwide gain access to premium educational content at 
+                    no cost through verified, working coupons.
                 </p>
                 
                 {% if not user.is_authenticated %}
-                    <div class="flex justify-center gap-4">
-                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary px-8 py-4 text-lg">
-                            Start Saving Now →
+                    <div class="mt-6">
+                        <a href="{% url 'account_signup' %}" class="btn btn-primary px-8 py-3 text-lg">
+                            Get Started Now
                         </a>
                     </div>
                 {% endif %}
-
-                <div class="mt-12 flex justify-center gap-8 text-gray-600">
-                    <div class="flex items-center gap-2">
-                        <span class="text-3xl font-bold text-emerald-600">15K+</span>
-                        <span>Courses Redeemed</span>
+                <!-- API Access Section -->
+            {% if user.is_authenticated %}
+            <section class="mb-12 p-4 rounded-lg token-box mx-auto">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1 relative">
+                        <code id="tokenField" class="p-2 bg-white rounded-md font-mono text-sm break-all">
+                            ••••••••••••••••••••
+                        </code>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-3xl font-bold text-emerald-600">93%</span>
-                        <span>Success Rate</span>
+                    <div class="flex gap-2">
+                        <button onclick="toggleTokenVisibility()" 
+                                class="btn btn-secondary px-4">
+                            <span id="toggleText">Show</span>
+                        </button>
+                        <button onclick="navigator.clipboard.writeText('{{ token }}')" 
+                                class="btn btn-secondary px-4">
+                            Copy
+                        </button>
                     </div>
                 </div>
+                <p class="text-sm text-gray-600 mt-2 text-center">
+                    🔒 Pass this token in the <code>X-API-TOKEN</code> header for authentication
+                </p>
             </section>
 
-            <!-- User Token Section -->
-            {% if user.is_authenticated %}
-                <section class="mb-12 p-6 rounded-lg token-box">
-                    <div class="max-w-4xl mx-auto">
-                        <h3 class="text-2xl font-semibold mb-4">Your Access Key</h3>
-                        <div class="flex items-center gap-4">
-                            <code class="p-3 bg-white rounded-md flex-1 font-mono text-sm break-all">
-                                {{ user.auth_token.key }}
-                            </code>
-                            <button onclick="navigator.clipboard.writeText('{{ user.auth_token.key }}')" 
-                                    class="btn btn-secondary px-6">
-                                Copy
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-3">
-                            🔒 Keep this token secure - it's your personal key to access our coupon API
-                        </p>
-                    </div>
-                </section>
+            
+        {% endif %}
+            </section>
 
-                <!-- API Response Display -->
-                <section class="mb-16">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="text-2xl font-semibold">Available Courses</h3>
-                        <div class="text-sm text-gray-600">
-                            Showing <span class="font-bold text-emerald-600">{{ count }}</span> active coupons
-                        </div>
-                    </div>
+            <!-- Content Sections -->
+            <section class="space-y-8 mb-16">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-4">✨ Why Use Our API?</h3>
+                    <p class="text-gray-600 mb-4">
+                        Our API provides real-time access to verified Udemy coupons with:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Instant updates when new coupons become available</li>
+                        <li>Detailed course information including ratings and duration</li>
+                        <li>Filtering options by category, rating, and expiration date</li>
+                        <li>High reliability with 99.9% uptime guarantee</li>
+                    </ul>
+                </div>
 
-                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {% for course in results %}
-                        <div class="course-card bg-white rounded-xl shadow-lg overflow-hidden">
-                            <div class="relative aspect-video overflow-hidden">
-                                <img src="{{ course.image_link }}" 
-                                     class="course-image w-full h-full object-cover transition-transform"
-                                     alt="{{ course.title }}">
-                                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60">
-                                    <span class="text-white font-semibold">
-                                        ⭐ {{ course.rating }} ({{ course.total_ratings }} ratings)
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <span class="text-xs font-semibold text-emerald-600">
-                                            {{ course.coupon.uses_remaining }} coupons left
-                                        </span>
-                                        <span class="block text-2xl font-bold text-gray-800">
-                                            {{ course.coupon.discount_price }}$
-                                        </span>
-                                        <del class="text-gray-400">{{ course.coupon.original_price }}$</del>
-                                    </div>
-                                    <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
-                                        {{ course.coupon.discount_deadline }} remaining
-                                    </span>
-                                </div>
-
-                                <h4 class="text-lg font-semibold mb-2">{{ course.title }}</h4>
-                                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                    {{ course.description }}
-                                </p>
-                                
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="px-2 py-1 bg-gray-100 rounded text-sm">
-                                        🎓 {{ course.student_count|floatformat:"0" }} students
-                                    </span>
-                                    <span class="px-2 py-1 bg-gray-100 rounded text-sm">
-                                        🕒 {{ course.video_content_length }}
-                                    </span>
-                                </div>
-
-                                <div class="flex items-center justify-between">
-                                    <a href="{{ course.link }}?couponCode={{ course.coupon.coupon_str }}" 
-                                       target="_blank"
-                                       class="btn btn-primary px-6 text-sm">
-                                        Get Coupon
-                                    </a>
-                                    <span class="text-xs text-gray-500">
-                                        Uses left: {{ course.coupon.uses_remaining }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </section>
-            {% endif %}
-
-            <!-- Value Proposition Section -->
-            <section class="py-16 bg-gray-50">
-                <div class="max-w-5xl mx-auto text-center">
-                    <h3 class="text-3xl font-bold mb-8">Why Choose CouponHub?</h3>
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="p-6">
-                            <div class="text-emerald-600 text-4xl mb-4">🎯</div>
-                            <h4 class="text-xl font-semibold mb-3">Premium Courses</h4>
-                            <p class="text-gray-600">Hand-picked quality courses from top instructors</p>
-                        </div>
-                        <div class="p-6">
-                            <div class="text-emerald-600 text-4xl mb-4">⏳</div>
-                            <h4 class="text-xl font-semibold mb-3">24h Updates</h4>
-                            <p class="text-gray-600">New coupons added daily with real-time availability</p>
-                        </div>
-                        <div class="p-6">
-                            <div class="text-emerald-600 text-4xl mb-4">🔐</div>
-                            <h4 class="text-xl font-semibold mb-3">Verified Coupons</h4>
-                            <p class="text-gray-600">We test every coupon before listing</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-4">🚀 Getting Started</h3>
+                    <p class="text-gray-600 mb-4">
+                        Follow these simple steps to integrate our API:
+                    </p>
+                    <ol class="list-decimal pl-6 space-y-4 text-gray-600">
+                        <li>Register for a free account</li>
+                        <li>Retrieve your API token from the dashboard</li>
+                        <li>Make authenticated requests to our endpoints</li>
+                        <li>Implement the coupon redemption flow in your application</li>
+                    </ol>
                 </div>
             </section>
         </main>
 
         <!-- Footer -->
-        <footer class="mt-20 border-t pt-12 pb-8">
-            <div class="grid md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                <div>
-                    <h5 class="font-semibold mb-4">CouponHub</h5>
-                    <p class="text-sm text-gray-600">
-                        Empowering lifelong learners through accessible education since 2024
-                    </p>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-4">Resources</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-emerald-600 hover:underline">API Documentation</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">Developer Guide</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">Status Page</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-4">Legal</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-emerald-600 hover:underline">Privacy Policy</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">Terms of Service</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-4">Support</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="{% url 'account_reset_password' %}" class="text-emerald-600 hover:underline">Password Reset</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">Contact Us</a></li>
-                        <li><a href="#" class="text-emerald-600 hover:underline">FAQ</a></li>
-                    </ul>
-                </div>
+        <footer class="mt-12 text-center text-sm text-gray-500 border-t pt-8">
+            <div class="mb-2">
+                <a href="/docs" class="text-emerald-600 hover:underline">API Documentation</a>
             </div>
-            <div class="mt-12 text-center text-sm text-gray-500">
-                <p>© 2024 CouponHub. Not affiliated with Udemy, Inc. All coupon data provided "as is" without warranty.</p>
-            </div>
+            <p>&copy; 2024 CouponHub. Not affiliated with Udemy.</p>
         </footer>
     </div>
+
+    <script>
+        // Token visibility toggle
+        let tokenVisible = false;
+        const actualToken = '{{ token }}';
+        
+        function toggleTokenVisibility() {
+            const tokenField = document.getElementById('tokenField');
+            const toggleText = document.getElementById('toggleText');
+            
+            tokenVisible = !tokenVisible;
+            tokenField.textContent = tokenVisible ? actualToken : '••••••••••••••••••••';
+            toggleText.textContent = tokenVisible ? 'Hide' : 'Show';
+        }
+
+    </script>
 </body>
 </html>

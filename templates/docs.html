@@ -1,0 +1,437 @@
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CouponHub API Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .endpoint-box { background-color: #f8fafc; border-left: 4px solid #10b981; }
+        pre { background-color: #1f2937; color: #f3f4f6; }
+        .hl-key { color: #f472b6; }
+        .hl-str { color: #34d399; }
+        .hl-num { color: #60a5fa; }
+        .hl-com { color: #6b7280; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
+        .badge-green { background-color: #dcfce7; color: #166534; }
+        .rotate { animation: rotation 2s infinite linear; }
+        @keyframes rotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(359deg); }
+        }
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          padding: 10px 16px;
+          font-size: 16px;
+          font-weight: 500;
+          transition: all 0.3s;
+      }
+      .btn-primary { background-color: #10b981; color: white; }
+      .btn-primary:hover { background-color: #059669; }
+      .btn-secondary { background-color: #f3f4f6; color: #111827; }
+      .btn-secondary:hover { background-color: #e5e7eb; }
+      .token-box { background-color: #f0fdf4; border: 2px dashed #34d399; max-width: 500px; }
+      pre { background-color: #1f2937; color: #f3f4f6; max-height: 400px; overflow: auto; }
+      .code-tab { cursor: pointer; transition: all 0.2s; }
+      .code-tab.active { background-color: #e5e7eb; }
+      .hl-key { color: #f472b6; }    /* Pink for keys */
+      .hl-str { color: #34d399; }    /* Green for strings */
+      .hl-num { color: #60a5fa; }    /* Blue for numbers */
+      .hl-com { color: #6b7280; }    /* Gray for comments */
+      details > summary {
+          list-style: none;
+          display: inline-block;
+          padding-left: 10px;
+        }
+        details > summary::-webkit-details-marker {
+          display: none;
+        }
+        .ml-4 {
+          margin-left: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Header -->
+        <header class="flex justify-between items-center py-6 mb-12">
+            <h1 class="text-3xl font-bold text-emerald-600">
+                <a href="/">CouponHub API Docs</a>
+            </h1>
+            <nav>
+                <a href="/" class="text-emerald-600 hover:underline">← Back to Home</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="space-y-12">
+            <!-- Overview Section -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">📚 API Overview</h2>
+                <div class="space-y-4 text-gray-600">
+                    <p>CouponHub API provides programmatic access to real-time Udemy course coupons. Build amazing tools and services that help learners access premium content for free.</p>
+                    
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-2">✨ Key Features</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Real-time coupon updates</li>
+                            <li>Detailed course information</li>
+                            <li>High availability (99.9% uptime)</li>
+                            <li>Simple RESTful interface</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Authentication -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">🔑 Authentication</h2>
+                <div class="endpoint-box p-4 rounded-lg">
+                    <code class="font-mono">X-API-TOKEN: your_api_token</code>
+                    <p class="mt-2 text-gray-600 text-sm">
+                        Include this header in all requests. Get your token after registration.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Rate Limits -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">⏱ Rate Limits</h2>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="badge badge-green">2 requests/second</span>
+                        <span class="text-sm text-gray-600">per user</span>
+                    </div>
+                    <p class="text-gray-600">
+                        If exceeded, you'll receive a <code>429 Too Many Requests</code> response.
+                        <br>Example retry header: <code>Retry-After: 1</code>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Data Freshness -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">🔄 Data Freshness</h2>
+                <div class="p-4 bg-white rounded-lg shadow-sm">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="rotate">🔄</span>
+                        <span class="font-semibold">Real-time Updates</span>
+                    </div>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>Full dataset refresh every 5 minutes</li>
+                        <li>New coupons added every minute (when available)</li>
+                        <li>Instant expiration tracking</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Use Cases -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">💡 Popular Use Cases</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-2">🤖 Telegram Bot</h3>
+                        <p class="text-gray-600 text-sm">
+                            Notify users when new coupons for specific categories become available
+                        </p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-2">🌐 Browser Extension</h3>
+                        <p class="text-gray-600 text-sm">
+                            Show available coupons directly on Udemy course pages
+                        </p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-2">📱 Mobile App</h3>
+                        <p class="text-gray-600 text-sm">
+                            Create a course discovery platform with instant discounts
+                        </p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-2">🎓 Educational Platforms</h3>
+                        <p class="text-gray-600 text-sm">
+                            Integrate free course opportunities into existing learning systems
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">🏆 Best Practices</h2>
+                <div class="p-4 bg-white rounded-lg shadow-sm space-y-4">
+                    <div>
+                        <h3 class="font-semibold">🔄 Caching</h3>
+                        <p class="text-gray-600 text-sm">
+                            Cache responses for 1-2 minutes to reduce server load
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">🚦 Error Handling</h3>
+                        <p class="text-gray-600 text-sm">
+                            Implement exponential backoff for 429 responses
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">📈 Monitoring</h3>
+                        <p class="text-gray-600 text-sm">
+                            Track remaining coupons and expiration dates
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Examples -->
+            <section class="mb-12">
+              <div class="flex flex-wrap gap-2 mb-4" id="languageTabs">
+                  <button class="code-tab px-4 py-2 rounded-t-lg active" data-lang="curl">cURL</button>
+                  <button class="code-tab px-4 py-2 rounded-t-lg" data-lang="python">Python</button>
+                  <button class="code-tab px-4 py-2 rounded-t-lg" data-lang="javascript">JavaScript</button>
+                  <button class="code-tab px-4 py-2 rounded-t-lg" data-lang="node">Node.js</button>
+              </div>
+
+              <!-- Request Examples -->
+              <div class="mb-8">
+                  <h3 class="text-xl font-semibold mb-4">API Request Examples</h3>
+                  <div id="requestExamples">
+                      <!-- cURL -->
+                      <div class="request-example active" data-lang="curl">
+                          <pre class="p-4 rounded-md"><code><span class="hl-key">curl</span> -X GET \
+-H <span class="hl-str">"X-API-TOKEN: </span><span class="hl-num">YOUR_TOKEN</span><span class="hl-str">"</span> \
+<span class="hl-str">https://api.couponhub.com/coupons/</span></code></pre>
+                      </div>
+
+                      <!-- Python -->
+                      <div class="request-example hidden" data-lang="python">
+                          <pre class="p-4 rounded-md"><code><span class="hl-key">import</span> requests
+
+headers = {
+<span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+}
+
+response = requests.<span class="hl-key">get</span>(
+<span class="hl-str">'https://api.couponhub.com/coupons/'</span>,
+headers=headers
+)
+
+<span class="hl-key">print</span>(response.json())</code></pre>
+                      </div>
+
+                      <!-- JavaScript -->
+                      <div class="request-example hidden" data-lang="javascript">
+                          <pre class="p-4 rounded-md"><code>fetch(<span class="hl-str">'https://api.couponhub.com/coupons/'</span>, {
+headers: {
+  <span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+}
+})
+.<span class="hl-key">then</span>(response => response.json())
+.<span class="hl-key">then</span>(data => console.log(data));</code></pre>
+                      </div>
+
+                      <!-- Node.js -->
+                      <div class="request-example hidden" data-lang="node">
+                          <pre class="p-4 rounded-md"><code><span class="hl-key">const</span> axios = <span class="hl-key">require</span>(<span class="hl-str">'axios'</span>);
+
+axios.<span class="hl-key">get</span>(<span class="hl-str">'https://api.couponhub.com/coupons/'</span>, {
+headers: {
+  <span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+}
+})
+.<span class="hl-key">then</span>(response => console.log(response.data));</code></pre>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="mb-8">
+                  <h3 class="text-xl font-semibold mb-4">Sample Response</h3>
+                  <pre class="p-4 rounded-md"><code>{
+                <span class="hl-str">"count"</span>: <span class="hl-num">15</span>,
+                <span class="hl-str">"next"</span>: <span class="hl-str">"http://127.0.0.1:8000/api/courses/?page=2"</span>,
+                <span class="hl-str">"previous"</span>: <span class="hl-key">null</span>,
+                <span class="hl-str">"results"</span>: [
+                  {
+                    <span class="hl-str">"course_id"</span>: <span class="hl-num">5007930</span>,
+                    <span class="hl-str">"coupon"</span>: {
+                      <span class="hl-str">"id"</span>: <span class="hl-num">8</span>,
+                      <span class="hl-str">"coupon_str"</span>: <span class="hl-str">"E8CA703A1AB1FD683923"</span>,
+                      <span class="hl-str">"is_available"</span>: <span class="hl-key">true</span>,
+                      <span class="hl-str">"discount_deadline"</span>: <span class="hl-str">"4 days"</span>,
+                      <span class="hl-str">"discount_price"</span>: <span class="hl-str">"0.00"</span>,
+                      <span class="hl-str">"original_price"</span>: <span class="hl-str">"27.99"</span>,
+                      <span class="hl-str">"expires_at"</span>: <span class="hl-str">"2025-02-25 17:46:00+00:00"</span>,
+                      <span class="hl-str">"uses_remaining"</span>: <span class="hl-num">930</span>,
+                      <span class="hl-str">"maximum_uses"</span>: <span class="hl-num">1000</span>,
+                      <span class="hl-str">"updated_at"</span>: <span class="hl-str">"2025-02-20T20:23:55.066161Z"</span>
+                    },
+                    <span class="hl-str">"title"</span>: <span class="hl-str">"Master Course in Project Management 2.0"</span>,
+                    <span class="hl-str">"image_link"</span>: <span class="hl-str">"https://img-c.udemycdn.com/course/750x422/5007930_0031.jpg"</span>,
+                    <span class="hl-str">"description"</span>: <span class="hl-str">"Project Management, PMP, Agile project management, Project manager, Prince2, Scrum, Project Planning, CAPM, PMI..."</span>,
+                    <span class="hl-str">"link"</span>: <span class="hl-str">"https://www.udemy.com/course/pmp-project-management"</span>,
+                    <span class="hl-str">"video_content_length"</span>: <span class="hl-str">"10:15:01"</span>,
+                    <span class="hl-str">"student_count"</span>: <span class="hl-num">39396</span>,
+                    <span class="hl-str">"rating"</span>: <span class="hl-str">"4.08"</span>,
+                    <span class="hl-str">"total_ratings"</span>: <span class="hl-num">889</span>,
+                    <span class="hl-str">"language"</span>: <span class="hl-str">"English"</span>,
+                    <span class="hl-str">"what_you_will_learn"</span>: <span class="hl-str">"Understanding the Project Management, Stages, and Purpose\nHow to analyze... Project risk management\nUnderstanding the Project Audit process..."</span>,
+                    <span class="hl-str">"requirements"</span>: <span class="hl-str">"No programming experience needed. You will learn everything you need to know"</span>,
+                    <span class="hl-str">"big_description"</span>: <span class="hl-str">"Master Course in Project Management 2.0\nElevate your project management expertise... Join us on this transformative journey and redefine your approach to project success..."</span>,
+                    <span class="hl-str">"who_this_course_is_for"</span>: <span class="hl-str">"Project leaders, IT managers, Corporate executives, Business and IT management..."</span>,
+                    <span class="hl-str">"created_at"</span>: <span class="hl-str">"2025-02-20T20:23:55.174476Z"</span>
+                  },
+                  {
+                    <span class="hl-str">"course_id"</span>: <span class="hl-num">5039018</span>,
+                    <span class="hl-str">"coupon"</span>: {
+                      <span class="hl-str">"id"</span>: <span class="hl-num">10</span>,
+                      <span class="hl-str">"coupon_str"</span>: <span class="hl-str">"84F5BDE1087805915871"</span>,
+                      <span class="hl-str">"is_available"</span>: <span class="hl-key">true</span>,
+                      <span class="hl-str">"discount_deadline"</span>: <span class="hl-str">"4 days"</span>,
+                      <span class="hl-str">"discount_price"</span>: <span class="hl-str">"0.00"</span>,
+                      <span class="hl-str">"original_price"</span>: <span class="hl-str">"26.99"</span>,
+                      <span class="hl-str">"expires_at"</span>: <span class="hl-str">"2025-02-25 17:42:00+00:00"</span>,
+                      <span class="hl-str">"uses_remaining"</span>: <span class="hl-num">934</span>,
+                      <span class="hl-str">"maximum_uses"</span>: <span class="hl-num">1000</span>,
+                      <span class="hl-str">"updated_at"</span>: <span class="hl-str">"2025-02-20T20:24:16.924010Z"</span>
+                    },
+                    <span class="hl-str">"title"</span>: <span class="hl-str">"Master Course in Corporate Social Responsibility (CSR)"</span>,
+                    <span class="hl-str">"image_link"</span>: <span class="hl-str">"https://img-c.udemycdn.com/course/750x422/5039018_beab.jpg"</span>,
+                    <span class="hl-str">"description"</span>: <span class="hl-str">"Corporate Social Responsibility, Climate Change, Environmental, Social and Governance..."</span>,
+                    <span class="hl-str">"link"</span>: <span class="hl-str">"https://www.udemy.com/course/corporate-social-responsibility-csr-environmental-sustainability"</span>,
+                    <span class="hl-str">"video_content_length"</span>: <span class="hl-str">"07:41:33"</span>,
+                    <span class="hl-str">"student_count"</span>: <span class="hl-num">10088</span>,
+                    <span class="hl-str">"rating"</span>: <span class="hl-str">"4.25"</span>,
+                    <span class="hl-str">"total_ratings"</span>: <span class="hl-num">281</span>,
+                    <span class="hl-str">"language"</span>: <span class="hl-str">"English"</span>,
+                    <span class="hl-str">"what_you_will_learn"</span>: <span class="hl-str">"Understanding the Introduction and types of corporate social responsibility..."</span>,
+                    <span class="hl-str">"requirements"</span>: <span class="hl-str">"No programming experience needed, You will learn everything you need to know..."</span>,
+                    <span class="hl-str">"big_description"</span>: <span class="hl-str">"Master Course in Corporate Social Responsibility (CSR)\nThis comprehensive Master Course... Join us on this transformative journey and redefine your approach..."</span>,
+                    <span class="hl-str">"who_this_course_is_for"</span>: <span class="hl-str">"All UG and PG Business students, Corporate Executives, Business Mentors..."</span>,
+                    <span class="hl-str">"created_at"</span>: <span class="hl-str">"2025-02-20T20:24:17.056766Z"</span>
+                  },
+                  {
+                    <span class="hl-str">"course_id"</span>: <span class="hl-num">5041798</span>,
+                    <span class="hl-str">"coupon"</span>: {
+                      <span class="hl-str">"id"</span>: <span class="hl-num">9</span>,
+                      <span class="hl-str">"coupon_str"</span>: <span class="hl-str">"9CC5914C8DDB1EECBEA7"</span>,
+                      <span class="hl-str">"is_available"</span>: <span class="hl-key">true</span>,
+                      <span class="hl-str">"discount_deadline"</span>: <span class="hl-str">"4 days"</span>,
+                      <span class="hl-str">"discount_price"</span>: <span class="hl-str">"0.00"</span>,
+                      <span class="hl-str">"original_price"</span>: <span class="hl-str">"29.99"</span>,
+                      <span class="hl-str">"expires_at"</span>: <span class="hl-str">"2025-02-25 17:45:00+00:00"</span>,
+                      <span class="hl-str">"uses_remaining"</span>: <span class="hl-num">940</span>,
+                      <span class="hl-str">"maximum_uses"</span>: <span class="hl-num">1000</span>,
+                      <span class="hl-str">"updated_at"</span>: <span class="hl-str">"2025-02-20T20:24:04.628110Z"</span>
+                    },
+                    <span class="hl-str">"title"</span>: <span class="hl-str">"Master course in Organizational Behavior and Design"</span>,
+                    <span class="hl-str">"image_link"</span>: <span class="hl-str">"https://img-c.udemycdn.com/course/750x422/5041798_44da.jpg"</span>,
+                    <span class="hl-str">"description"</span>: <span class="hl-str">"Organizational behavior, Organizational Design, Organizational behavior analysis..."</span>,
+                    <span class="hl-str">"link"</span>: <span class="hl-str">"https://www.udemy.com/course/organizational-behavior-organizational-design"</span>,
+                    <span class="hl-str">"video_content_length"</span>: <span class="hl-str">"22:56:37"</span>,
+                    <span class="hl-str">"student_count"</span>: <span class="hl-num">14825</span>,
+                    <span class="hl-str">"rating"</span>: <span class="hl-str">"4.24"</span>,
+                    <span class="hl-str">"total_ratings"</span>: <span class="hl-num">186</span>,
+                    <span class="hl-str">"language"</span>: <span class="hl-str">"English"</span>,
+                    <span class="hl-str">"what_you_will_learn"</span>: <span class="hl-str">"Learning the Introduction of Organizational behavior..."</span>,
+                    <span class="hl-str">"requirements"</span>: <span class="hl-str">"No programming experience needed. You will learn everything you need to know..."</span>,
+                    <span class="hl-str">"big_description"</span>: <span class="hl-str">"Master Course in Organizational Behavior and Design\nCourse Description:\nThis comprehensive Master Course..."</span>,
+                    <span class="hl-str">"who_this_course_is_for"</span>: <span class="hl-str">"All UG and PG Business and management students, HR Executives..."</span>,
+                    <span class="hl-str">"created_at"</span>: <span class="hl-str">"2025-02-20T20:24:04.758172Z"</span>
+                  },
+                  {
+                    <span class="hl-str">"course_id"</span>: <span class="hl-num">5597312</span>,
+                    <span class="hl-str">"coupon"</span>: {
+                      <span class="hl-str">"id"</span>: <span class="hl-num">13</span>,
+                      <span class="hl-str">"coupon_str"</span>: <span class="hl-str">"F35E9F26011B27C8FE0A"</span>,
+                      <span class="hl-str">"is_available"</span>: <span class="hl-key">true</span>,
+                      <span class="hl-str">"discount_deadline"</span>: <span class="hl-str">"4 days"</span>,
+                      <span class="hl-str">"discount_price"</span>: <span class="hl-str">"0.00"</span>,
+                      <span class="hl-str">"original_price"</span>: <span class="hl-str">"19.99"</span>,
+                      <span class="hl-str">"expires_at"</span>: <span class="hl-str">"2025-02-25 17:38:00+00:00"</span>,
+                      <span class="hl-str">"uses_remaining"</span>: <span class="hl-num">893</span>,
+                      <span class="hl-str">"maximum_uses"</span>: <span class="hl-num">1000</span>,
+                      <span class="hl-str">"updated_at"</span>: <span class="hl-str">"2025-02-20T20:24:41.310799Z"</span>
+                    },
+                    <span class="hl-str">"title"</span>: <span class="hl-str">"Industrial Cloud & Distributed Cloud Services (101 Course)"</span>,
+                    <span class="hl-str">"image_link"</span>: <span class="hl-str">"https://img-c.udemycdn.com/course/750x422/5597312_33b5.jpg"</span>,
+                    <span class="hl-str">"description"</span>: <span class="hl-str">"Industrial Cloud, Distributed Cloud Services, Cloud Computing, Cloud Architecture..."</span>,
+                    <span class="hl-str">"link"</span>: <span class="hl-str">"https://www.udemy.com/course/industrial-cloud-distributed-cloud-services/"</span>,
+                    <span class="hl-str">"video_content_length"</span>: <span class="hl-str">"01:49:58"</span>,
+                    <span class="hl-str">"student_count"</span>: <span class="hl-num">10015</span>,
+                    <span class="hl-str">"rating"</span>: <span class="hl-str">"4.20"</span>,
+                    <span class="hl-str">"total_ratings"</span>: <span class="hl-num">157</span>,
+                    <span class="hl-str">"language"</span>: <span class="hl-str">"English"</span>,
+                    <span class="hl-str">"what_you_will_learn"</span>: <span class="hl-str">"Understand the fundamentals and key concepts of Cloud Computing..."</span>,
+                    <span class="hl-str">"requirements"</span>: <span class="hl-str">"Basic skills and Ideas of Cloud Computing"</span>,
+                    <span class="hl-str">"big_description"</span>: <span class="hl-str">"Master Course in Industrial Cloud and Distributed Cloud Services (101 level)... Your students will thank you..."</span>,
+                    <span class="hl-str">"who_this_course_is_for"</span>: <span class="hl-str">"All UG and PG Information technology & Computer science Students..."</span>,
+                    <span class="hl-str">"created_at"</span>: <span class="hl-str">"2025-02-20T20:24:41.400246Z"</span>
+                  },
+                  {
+                    <span class="hl-str">"course_id"</span>: <span class="hl-num">5599906</span>,
+                    <span class="hl-str">"coupon"</span>: {
+                      <span class="hl-str">"id"</span>: <span class="hl-num">15</span>,
+                      <span class="hl-str">"coupon_str"</span>: <span class="hl-str">"7CB61395AEDFE6906963"</span>,
+                      <span class="hl-str">"is_available"</span>: <span class="hl-key">true</span>,
+                      <span class="hl-str">"discount_deadline"</span>: <span class="hl-str">"4 days"</span>,
+                      <span class="hl-str">"discount_price"</span>: <span class="hl-str">"0.00"</span>,
+                      <span class="hl-str">"original_price"</span>: <span class="hl-str">"22.99"</span>,
+                      <span class="hl-str">"expires_at"</span>: <span class="hl-str">"2025-02-25 17:34:00+00:00"</span>,
+                      <span class="hl-str">"uses_remaining"</span>: <span class="hl-num">958</span>,
+                      <span class="hl-str">"maximum_uses"</span>: <span class="hl-num">1000</span>,
+                      <span class="hl-str">"updated_at"</span>: <span class="hl-str">"2025-02-20T20:24:56.692191Z"</span>
+                    },
+                    <span class="hl-str">"title"</span>: <span class="hl-str">"Pedagogy in Teaching, Lesson Plan & Classroom Management"</span>,
+                    <span class="hl-str">"image_link"</span>: <span class="hl-str">"https://img-c.udemycdn.com/course/750x422/5599906_c429.jpg"</span>,
+                    <span class="hl-str">"description"</span>: <span class="hl-str">"Teaching Pedagogy, Lesson Plan, Classroom Management, Early Childhood Education..."</span>,
+                    <span class="hl-str">"link"</span>: <span class="hl-str">"https://www.udemy.com/course/pedagogy-in-teaching-lesson-plan-classroom-management"</span>,
+                    <span class="hl-str">"video_content_length"</span>: <span class="hl-str">"03:26:54"</span>,
+                    <span class="hl-str">"student_count"</span>: <span class="hl-num">8290</span>,
+                    <span class="hl-str">"rating"</span>: <span class="hl-str">"4.14"</span>,
+                    <span class="hl-str">"total_ratings"</span>: <span class="hl-num">203</span>,
+                    <span class="hl-str">"language"</span>: <span class="hl-str">"English"</span>,
+                    <span class="hl-str">"what_you_will_learn"</span>: <span class="hl-str">"Understand key pedagogical concepts and their application in the classroom..."</span>,
+                    <span class="hl-str">"requirements"</span>: <span class="hl-str">"Basic teaching skills and ideas to develop the curriculum and lesson plans."</span>,
+                    <span class="hl-str">"big_description"</span>: <span class="hl-str">"Mastering the Art of Teaching: Pedagogy, Lesson Plans, and Classroom Management\nTeaching is a noble profession..."</span>,
+                    <span class="hl-str">"who_this_course_is_for"</span>: <span class="hl-str">"All UG and PG Education, Educational Psychology, Teacher Training Students..."</span>,
+                    <span class="hl-str">"created_at"</span>: <span class="hl-str">"2025-02-20T20:24:56.825910Z"</span>
+                  }
+                ]
+              }</code></pre>
+              </div>
+
+          </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-gray-500 border-t pt-8">
+            <div class="mb-2 space-x-4">
+                <a href="#" class="text-emerald-600 hover:underline">Support</a>
+                <a href="#" class="text-emerald-600 hover:underline">Status</a>
+                <a href="#" class="text-emerald-600 hover:underline">Discord</a>
+            </div>
+            <p class="text-xs text-gray-400">
+                API Status: <span class="text-green-500">●</span> All Systems Operational
+                <br>© 2024 CouponHub. Not affiliated with Udemy.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+      // Language tabs
+      document.querySelectorAll('.code-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.request-example').forEach(ex => ex.classList.add('hidden'));
+            
+            tab.classList.add('active');
+            const lang = tab.dataset.lang;
+            document.querySelector(`.request-example[data-lang="${lang}"]`).classList.remove('hidden');
+        });
+    });
+  </script>
+</body>
+</html>
