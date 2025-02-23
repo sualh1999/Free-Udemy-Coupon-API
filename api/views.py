@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.utils.timezone import now
 from rest_framework.views import APIView
@@ -30,3 +31,18 @@ def home(request):
         token, _ = CustomToken.objects.get_or_create(user=user)
         context = {"token": token.key}
     return render(request, "home.html", context=context)
+
+def dashboard(request):
+    if not  request.user.is_authenticated:
+        return render(request, "home.html")
+    
+    activities = UserDailyActivity.objects.filter(user=request.user).order_by('date')
+    dates = [activity.date.strftime('%Y-%m-%d') for activity in activities]
+    request_counts = [activity.request_count for activity in activities]
+    
+    # Convert lists to JSON strings
+    context = {
+        'dates_json': json.dumps(dates),
+        'request_counts_json': json.dumps(request_counts),
+    }
+    return render(request, 'dashboard.html', context)

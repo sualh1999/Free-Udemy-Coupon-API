@@ -7,7 +7,7 @@ admin.site.register(UserDailyActivity)
 
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['coupon_str', 'discount_price', 'original_price', 'expires_at', 'updated_at']
+    list_display = ['coupon_str', 'discount_price', 'original_price', 'expires_at', 'updated_at', 'is_available']
 
 
 @admin.register(CourseDetail)
