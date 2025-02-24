@@ -7,4 +7,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name="dashboard"),
     path('docs/', TemplateView.as_view(template_name="docs.html")),
     path('api/courses/', views.CourseDetailListAPIView.as_view(), name='course-detail-list'),
+    path('api/courses/<int:pk>/', views.CourseDetailRetrieveAPIView.as_view(), name='course-detail'),
+
 ]

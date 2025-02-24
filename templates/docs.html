@@ -81,7 +81,6 @@
                         <ul class="list-disc pl-6 space-y-2">
                             <li>Real-time coupon updates</li>
                             <li>Detailed course information</li>
-                            <li>High availability (99.9% uptime)</li>
                             <li>Simple RESTful interface</li>
                         </ul>
                     </div>
@@ -92,7 +91,7 @@
             <section>
                 <h2 class="text-2xl font-bold mb-4">🔑 Authentication</h2>
                 <div class="endpoint-box p-4 rounded-lg">
-                    <code class="font-mono">X-API-TOKEN: your_api_token</code>
+                    <code class="font-mono">token: your_api_token</code>
                     <p class="mt-2 text-gray-600 text-sm">
                         Include this header in all requests. Get your token after registration.
                     </p>
@@ -104,12 +103,15 @@
                 <h2 class="text-2xl font-bold mb-4">⏱ Rate Limits</h2>
                 <div class="p-4 bg-white rounded-lg shadow-sm">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="badge badge-green">2 requests/second</span>
+                        <span class="badge badge-green">15 requests/minute</span>
                         <span class="text-sm text-gray-600">per user</span>
                     </div>
                     <p class="text-gray-600">
                         If exceeded, you'll receive a <code>429 Too Many Requests</code> response.
-                        <br>Example retry header: <code>Retry-After: 1</code>
+                        <br>Example: <code>{
+                            "message": "request limit exceeded",
+                            "Retry-After": "25 seconds"
+                        }</code>
                     </p>
                 </div>
             </section>
@@ -161,30 +163,6 @@
                 </div>
             </section>
 
-            <!-- Best Practices -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">🏆 Best Practices</h2>
-                <div class="p-4 bg-white rounded-lg shadow-sm space-y-4">
-                    <div>
-                        <h3 class="font-semibold">🔄 Caching</h3>
-                        <p class="text-gray-600 text-sm">
-                            Cache responses for 1-2 minutes to reduce server load
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">🚦 Error Handling</h3>
-                        <p class="text-gray-600 text-sm">
-                            Implement exponential backoff for 429 responses
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">📈 Monitoring</h3>
-                        <p class="text-gray-600 text-sm">
-                            Track remaining coupons and expiration dates
-                        </p>
-                    </div>
-                </div>
-            </section>
 
             <!-- API Examples -->
             <section class="mb-12">
@@ -202,8 +180,8 @@
                       <!-- cURL -->
                       <div class="request-example active" data-lang="curl">
                           <pre class="p-4 rounded-md"><code><span class="hl-key">curl</span> -X GET \
--H <span class="hl-str">"X-API-TOKEN: </span><span class="hl-num">YOUR_TOKEN</span><span class="hl-str">"</span> \
-<span class="hl-str">https://api.couponhub.com/coupons/</span></code></pre>
+-H <span class="hl-str">"token: </span><span class="hl-num">YOUR_TOKEN</span><span class="hl-str">"</span> \
+<span class="hl-str">https://couponhub.srachn.com/api/coupons/</span></code></pre>
                       </div>
 
                       <!-- Python -->
@@ -211,11 +189,11 @@
                           <pre class="p-4 rounded-md"><code><span class="hl-key">import</span> requests
 
 headers = {
-<span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+<span class="hl-str">'token'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
 }
 
 response = requests.<span class="hl-key">get</span>(
-<span class="hl-str">'https://api.couponhub.com/coupons/'</span>,
+<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>,
 headers=headers
 )
 
@@ -224,9 +202,9 @@ headers=headers
 
                       <!-- JavaScript -->
                       <div class="request-example hidden" data-lang="javascript">
-                          <pre class="p-4 rounded-md"><code>fetch(<span class="hl-str">'https://api.couponhub.com/coupons/'</span>, {
+                          <pre class="p-4 rounded-md"><code>fetch(<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>, {
 headers: {
-  <span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+  <span class="hl-str">'token'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
 }
 })
 .<span class="hl-key">then</span>(response => response.json())
@@ -237,9 +215,9 @@ headers: {
                       <div class="request-example hidden" data-lang="node">
                           <pre class="p-4 rounded-md"><code><span class="hl-key">const</span> axios = <span class="hl-key">require</span>(<span class="hl-str">'axios'</span>);
 
-axios.<span class="hl-key">get</span>(<span class="hl-str">'https://api.couponhub.com/coupons/'</span>, {
+axios.<span class="hl-key">get</span>(<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>, {
 headers: {
-  <span class="hl-str">'X-API-TOKEN'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
+  <span class="hl-str">'token'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
 }
 })
 .<span class="hl-key">then</span>(response => console.log(response.data));</code></pre>

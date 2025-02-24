@@ -1,27 +1,47 @@
 import json
+import math
 from django.shortcuts import render
 from django.utils.timezone import now
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.exceptions import Throttled
 
-from .models import CourseDetail, CustomToken, UserDailyActivity
+from .models import CourseDetail, Coupon, CustomToken, UserDailyActivity
 from .serializers import CourseDetailSerializer, CouponDetailPagination
 
-class CourseDetailListAPIView(generics.ListAPIView):
+def update_user_activity(user):
+    today = now().date()
+    activity, _ = UserDailyActivity.objects.get_or_create(user=user, date=today)
+    activity.request_count+=1
+    activity.save()
+
+class CourseDetailRetrieveAPIView(generics.RetrieveAPIView):
     queryset = CourseDetail.objects.select_related("coupon").all()
+    serializer_class = CourseDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        update_user_activity(request.user)
+        return super().get(request, *args, **kwargs)
+
+class CourseDetailListAPIView(generics.ListAPIView):
+    queryset = CourseDetail.objects.select_related("coupon").all().order_by("created_at")
     serializer_class = CourseDetailSerializer
     pagination_class = CouponDetailPagination
 
     def get(self, request, *args, **kwargs):
-        today = now().date()
-        user = request.user
-        activity, _ = UserDailyActivity.objects.get_or_create(user=user, date=today)
-        activity.request_count+=1
-        activity.save()
-
+        update_user_activity(request.user)
         return super().get(request, *args, **kwargs)
+    
+    def throttled(self, request, wait):
+        wait = math.ceil(wait)
+        raise Throttled(detail={
+              "message":"request limit exceeded",
+              "Retry-After":f"{wait} seconds"
+        })
+    
+
 
     
 def home(request):
@@ -39,6 +59,13 @@ def dashboard(request):
     activities = UserDailyActivity.objects.filter(user=request.user).order_by('date')
     dates = [activity.date.strftime('%Y-%m-%d') for activity in activities]
     request_counts = [activity.request_count for activity in activities]
+
+    active_coupons = Coupon.objects.filter(is_available=True).count()
+    reqs = UserDailyActivity.objects.filter(user=request.user)
+    total = 0
+    for day in reqs:
+        req = day.date
+        total+=req
     
     # Convert lists to JSON strings
     context = {
