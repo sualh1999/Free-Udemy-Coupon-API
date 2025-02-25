@@ -17,6 +17,8 @@
             background-color: #f8f9fa;
             font-family: 'Inter', sans-serif;
         }
+        .hl { color: #34d399; }    /* Green for strings */
+
         .navbar {
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -51,9 +53,9 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{% static 'logo.png' %}" alt="CouponHub" height="40">
-            </a>
+            <h1 class="text-3xl font-bold text-emerald-600">
+                <a href="/">CouponHub</a>
+            </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -81,7 +83,7 @@
                         </div>
                         <div>
                             <div class="text-muted small">Total Requests</div>
-                            <div class="h4 mb-0">2,543</div>
+                            <div class="h4 mb-0">{{ total_requests }}</div>
                         </div>
                     </div>
                 </div>
@@ -107,7 +109,7 @@
                         </div>
                         <div>
                             <div class="text-muted small">Active Coupons</div>
-                            <div class="h4 mb-0">1,234</div>
+                            <div class="h4 mb-0">{{ active_coupons }}</div>
                         </div>
                     </div>
                 </div>
@@ -121,100 +123,17 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="col-12 col-lg-6">
-                <div class="dashboard-card p-3">
-                    <h5 class="mb-3">Recent Activity</h5>
-                    <div class="list-group">
-                        <div class="list-group-item border-0 d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3"></i>
-                            <div>
-                                <div>Successful API request</div>
-                                <small class="text-muted">2 minutes ago</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item border-0 d-flex align-items-center">
-                            <i class="fas fa-exclamation-triangle text-warning me-3"></i>
-                            <div>
-                                <div>Rate limit warning</div>
-                                <small class="text-muted">15 minutes ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- API Documentation -->
-            <div class="col-12 col-lg-6">
-                <div class="dashboard-card p-3">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <a href="#" class="btn btn-outline-secondary w-100 text-start">
-                                <i class="fas fa-book me-2"></i>Documentation
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="#" class="btn btn-outline-secondary w-100 text-start">
-                                <i class="fas fa-code me-2"></i>API Examples
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="#" class="btn btn-outline-secondary w-100 text-start">
-                                <i class="fas fa-history me-2"></i>Usage History
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="#" class="btn btn-outline-secondary w-100 text-start">
-                                <i class="fas fa-key me-2"></i>API Keys
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="py-5 mt-5">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-12 col-md-4">
-                    <h5>CouponHub</h5>
-                    <p class="text-muted small">Empowering developers with premium course access through smart API solutions.</p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <h6>Product</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-muted small text-decoration-none">Features</a></li>
-                        <li><a href="#" class="text-muted small text-decoration-none">Documentation</a></li>
-                        <li><a href="#" class="text-muted small text-decoration-none">Pricing</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-2">
-                    <h6>Company</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-muted small text-decoration-none">About</a></li>
-                        <li><a href="#" class="text-muted small text-decoration-none">Blog</a></li>
-                        <li><a href="#" class="text-muted small text-decoration-none">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-4">
-                    <h6>Stay Updated</h6>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Enter your email">
-                        <button class="btn btn-success">Subscribe</button>
-                    </div>
-                </div>
-            </div>
             <hr class="my-4">
             <div class="row">
                 <div class="col-md-6 text-muted small">
-                    © 2024 CouponHub. All rights reserved.
-                </div>
-                <div class="col-md-6 text-end">
-                    <a href="#" class="text-muted small text-decoration-none me-3">Privacy Policy</a>
-                    <a href="#" class="text-muted small text-decoration-none">Terms of Service</a>
+                    © 2025 CouponHub. All rights reserved.
                 </div>
             </div>
         </div>

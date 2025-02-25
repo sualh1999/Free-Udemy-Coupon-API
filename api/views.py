@@ -2,6 +2,7 @@ import json
 import math
 from django.shortcuts import render
 from django.utils.timezone import now
+from django.db.models import Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -61,15 +62,13 @@ def dashboard(request):
     request_counts = [activity.request_count for activity in activities]
 
     active_coupons = Coupon.objects.filter(is_available=True).count()
-    reqs = UserDailyActivity.objects.filter(user=request.user)
-    total = 0
-    for day in reqs:
-        req = day.date
-        total+=req
+    total_requests = UserDailyActivity.objects.filter(user=request.user).aggregate(Sum('request_count'))['request_count__sum'] or 0
     
     # Convert lists to JSON strings
     context = {
         'dates_json': json.dumps(dates),
         'request_counts_json': json.dumps(request_counts),
+        'active_coupons': active_coupons,
+        'total_requests': total_requests
     }
     return render(request, 'dashboard.html', context)

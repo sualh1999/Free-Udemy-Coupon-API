@@ -1,9 +1,9 @@
-{% extends "account/base_manage.html" %}
+{% comment %} {% extends "account/base_manage.html" %} {% endcomment %}
 {% load allauth i18n %}
 
-{% block head_title %}
+{% comment %} {% block head_title %}
     {% trans "Sign Out" %}
-{% endblock head_title %}
+{% endblock head_title %} {% endcomment %}
 
 {% block content %}
     <div class="signout-container">
@@ -28,7 +28,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #dc3545;
+            color: #10b981;
         }
         p {
             margin: 15px 0;
@@ -37,7 +37,7 @@
             margin-top: 20px;
         }
         .signout-button {
-            background-color: #dc3545;
+            background-color: #10b981;
             color: white;
             border: none;
             padding: 10px 20px;
