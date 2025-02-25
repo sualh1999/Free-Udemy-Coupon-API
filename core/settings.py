@@ -22,12 +22,12 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+32u&n5beq(la74s-^z!40@w0pb*&f!av@khk#1e#q085uwd0a'
+SECRET_KEY = os.getenv("SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['couponhub.srachn.com', 'www.couponhub.srachn.com']
 
 
 # Application definition
@@ -145,6 +145,21 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_errors.log'),
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'ERROR',
+    },
+}
 
 
 # Password validation
@@ -224,3 +239,10 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ACCOUNT_ADAPTER = "api.adapters.CustomAccountAdapter"
 # ACCOUNT_PREVENT_ENUMERATION = False  # Disable email existence checks
+
+CSRF_TRUSTED_ORIGINS = ["https://couponhub.srachn.com"]
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Redirects HTTP to HTTPS
+SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
+CSRF_COOKIE_SECURE = True  # CSRF token only sent over HTTPS
