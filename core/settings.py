@@ -9,12 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -61,20 +63,6 @@ CUSTOM_APPS = [
 
 INSTALLED_APPS = BUILT_IN_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-    
-    
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         # For each OAuth based provider, either add a ``SocialApp``
-#         # (``socialaccount`` app) containing the required client
-#         # credentials, or list them here:
-#         'APP': {
-#             'client_id': '123',
-#             'secret': '456',
-#             'key': ''
-#         }
-#     }
-# }
 
 
 
@@ -140,12 +128,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': 'localhost'
     }
 }
+
 
 
 # Password validation
@@ -198,8 +197,10 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGIN_REDIRECT_URL = "/"  
 LOGOUT_REDIRECT_URL = "/"  
 
-ACCOUNT_RATE_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
+ACCOUNT_RATE_LIMITS = {
+    "login_failed": "5/300s",
+}
+
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
