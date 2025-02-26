@@ -27,7 +27,7 @@ class CourseDetailRetrieveAPIView(generics.RetrieveAPIView):
         return super().get(request, *args, **kwargs)
 
 class CourseDetailListAPIView(generics.ListAPIView):
-    queryset = CourseDetail.objects.select_related("coupon").all().order_by("created_at")
+    queryset = CourseDetail.objects.select_related("coupon").all().order_by("created_at").filter(coupon__is_available=True)
     serializer_class = CourseDetailSerializer
     pagination_class = CouponDetailPagination
 

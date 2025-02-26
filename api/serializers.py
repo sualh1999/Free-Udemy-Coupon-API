@@ -11,6 +11,7 @@ class CustomUserRateThrottle(UserRateThrottle):
 
 class CouponDetailPagination(PageNumberPagination):
   page_size = 5
+  page_size_query_param = "page_size"
   max_page_size = 50
 
 class CouponSerializer(serializers.ModelSerializer):
@@ -19,16 +20,12 @@ class CouponSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 class CourseDetailSerializer(serializers.ModelSerializer):
-  coupon = serializers.SerializerMethodField()
+  coupon = CouponSerializer()
 
   class Meta:
     model = CourseDetail
     fields = '__all__'
 
-  def get_coupon(self, obj):
-    if obj.coupon and obj.coupon.is_available:
-      return CouponSerializer(obj.coupon).data  
-    return None
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

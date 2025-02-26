@@ -25,9 +25,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False if os.getenv("DEBUG", 'False') == 'False' else True
 
-ALLOWED_HOSTS = ['couponhub.srachn.com', 'www.couponhub.srachn.com']
+ALLOWED_HOSTS = ['couponhub.srachn.com', 'www.couponhub.srachn.com'] if not DEBUG else []
 
 
 # Application definition
@@ -126,22 +126,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': 'localhost'
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv("DB_NAME"),
+            'USER': os.getenv("DB_USER"),
+            'PASSWORD': os.getenv("DB_PASSWORD"),
+            'HOST': 'localhost'
+        }
+    }
 
 LOGGING = {
     'version': 1,
@@ -184,7 +185,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Addis_Ababa'
 
 USE_I18N = True
 
@@ -240,9 +241,9 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_ADAPTER = "api.adapters.CustomAccountAdapter"
 # ACCOUNT_PREVENT_ENUMERATION = False  # Disable email existence checks
 
-CSRF_TRUSTED_ORIGINS = ["https://couponhub.srachn.com"]
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_SSL_REDIRECT = True  # Redirects HTTP to HTTPS
-SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
-CSRF_COOKIE_SECURE = True  # CSRF token only sent over HTTPS
+CSRF_TRUSTED_ORIGINS = ["https://couponhub.srachn.com"] if not DEBUG else []
+SECURE_BROWSER_XSS_FILTER = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG  # Redirects HTTP to HTTPS
+SESSION_COOKIE_SECURE = not DEBUG  # Cookies only sent over HTTPS
+CSRF_COOKIE_SECURE = not DEBUG  # CSRF token only sent over HTTPS
