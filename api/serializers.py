@@ -19,10 +19,16 @@ class CouponSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 class CourseDetailSerializer(serializers.ModelSerializer):
-  coupon = CouponSerializer()
+  coupon = serializers.SerializerMethodField()
+
   class Meta:
     model = CourseDetail
     fields = '__all__'
+
+    def get_coupon(self, obj):
+      coupons = obj.coupon_set.filter(is_available=True)
+      return CouponSerializer(coupons, many=True).data
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
