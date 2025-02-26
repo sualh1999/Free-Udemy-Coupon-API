@@ -181,7 +181,7 @@
                       <div class="request-example active" data-lang="curl">
                           <pre class="p-4 rounded-md"><code><span class="hl-key">curl</span> -X GET \
 -H <span class="hl-str">"token: </span><span class="hl-num">YOUR_TOKEN</span><span class="hl-str">"</span> \
-<span class="hl-str">https://couponhub.srachn.com/api/coupons/</span></code></pre>
+<span class="hl-str">https://couponhub.srachn.com/api/courses/</span></code></pre>
                       </div>
 
                       <!-- Python -->
@@ -193,7 +193,7 @@ headers = {
 }
 
 response = requests.<span class="hl-key">get</span>(
-<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>,
+<span class="hl-str">'https://couponhub.srachn.com/api/courses/'</span>,
 headers=headers
 )
 
@@ -202,7 +202,7 @@ headers=headers
 
                       <!-- JavaScript -->
                       <div class="request-example hidden" data-lang="javascript">
-                          <pre class="p-4 rounded-md"><code>fetch(<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>, {
+                          <pre class="p-4 rounded-md"><code>fetch(<span class="hl-str">'https://couponhub.srachn.com/api/courses/'</span>, {
 headers: {
   <span class="hl-str">'token'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
 }
@@ -215,7 +215,7 @@ headers: {
                       <div class="request-example hidden" data-lang="node">
                           <pre class="p-4 rounded-md"><code><span class="hl-key">const</span> axios = <span class="hl-key">require</span>(<span class="hl-str">'axios'</span>);
 
-axios.<span class="hl-key">get</span>(<span class="hl-str">'https://couponhub.srachn.com/api/coupons/'</span>, {
+axios.<span class="hl-key">get</span>(<span class="hl-str">'https://couponhub.srachn.com/api/courses/'</span>, {
 headers: {
   <span class="hl-str">'token'</span>: <span class="hl-str">'YOUR_TOKEN'</span>
 }
@@ -382,6 +382,11 @@ headers: {
               </div>
 
           </section>
+          <!-- cURL -->
+          <div class="request-example active" data-lang="curl">
+            <h3 class="text-xl font-semibold mb-4">Use this endpoint to fetch a single course (ideal for updating previously fetched data):</h3>
+            <pre class="p-4 rounded-md"><code><span class="hl-str">https://couponhub.srachn.com/api/courses/{course_id}</span></code></pre>
+          </div>
         </main>
 
         <!-- Footer -->

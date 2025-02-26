@@ -62,6 +62,7 @@ def dashboard(request):
     request_counts = [activity.request_count for activity in activities]
 
     active_coupons = Coupon.objects.filter(is_available=True).count()
+    total_coupons = Coupon.objects.all().count()
     total_requests = UserDailyActivity.objects.filter(user=request.user).aggregate(Sum('request_count'))['request_count__sum'] or 0
     
     # Convert lists to JSON strings
@@ -69,6 +70,7 @@ def dashboard(request):
         'dates_json': json.dumps(dates),
         'request_counts_json': json.dumps(request_counts),
         'active_coupons': active_coupons,
+        'total_coupons': total_coupons,
         'total_requests': total_requests
     }
     return render(request, 'dashboard.html', context)
