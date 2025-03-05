@@ -1,0 +1,46 @@
+<a href="?page={{ course.course_id }}" class="block">
+
+  <div class="group flex flex-col gap-2 cursor-pointer transition-all hover:-translate-y-1">
+  <!-- Image Container with Overlay -->
+  <div class="relative w-full aspect-video overflow-hidden rounded-xl">
+    <img 
+      src="{{ course.image_link}}" 
+      alt="Course thumbnail" 
+      class="w-full h-full object-cover"
+    >
+  </div>
+
+  <!-- Course Details -->
+  <div class="px-1 space-y-2">
+    <!-- Title -->
+    <h3 class="text-[#1C160C] font-semibold line-clamp-2 leading-snug group-hover:text-[#019863] transition-colors">
+      {{ course.title }}
+    </h3>
+
+    <!-- Metadata -->
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+      <!-- Rating -->
+      <div class="flex items-center gap-1 text-amber-600">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16">
+          <path d="M8 1.5l1.795 3.843 4.25.617-3.125 3.03.75 4.26L8 11.327l-3.67 1.923.75-4.26-3.125-3.03 4.25-.617L8 1.5z"/>
+        </svg>
+        <span>{{ course.rating }}</span>
+        <span class="text-[#6B7280]">({{ course.total_ratings }})</span>
+      </div>
+        
+      <!-- Students -->
+      <div class="flex items-center gap-1 text-[#6B7280]">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16">
+          <path d="M8 8a3 3 0 100-6 3 3 0 000 6zm2-3a2 2 0 11-4 0 2 2 0 014 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+        </svg>
+        <span>{{ course.student_count }}</span>
+      </div>
+
+      <!-- Uses Remaining -->
+      <div class="bg-[#019863]/10 text-[#019863] px-2 py-1 rounded-full text-xs font-medium">
+        🔥 {{ course.coupon.uses_remaining }} uses left
+      </div>
+    </div>
+  </div>
+</div>
+</a>

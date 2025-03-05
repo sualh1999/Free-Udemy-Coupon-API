@@ -1,0 +1,5 @@
+{% for course in page_obj %}
+    {% include "snippet/course_div.html" with course=course %}
+{% empty %}
+    <p class="text-gray-500">No courses found.</p>
+{% endfor %}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <style>
+        :root {
+            --primary-color: #019863;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .course-header {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .course-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .course-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .course-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .price-section {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .discount-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .requirements-section, .learn-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.history.back()">← Back to Courses</button>
+    
+    <div id="course-detail"
+         hx-get="/api/courses"
+         hx-trigger="load"
+         hx-vals='{"course_id": getCourseId()}'>
+        <div class="loading">Loading course details...</div>
+    </div>
+
+    <script>
+        function getCourseId() {
+            const params = new URLSearchParams(window.location.search);
+            return {course_id: params.get('course_id')};
+        }
+    </script>
+</body>
+</html>
