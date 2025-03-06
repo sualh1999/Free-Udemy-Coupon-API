@@ -85,36 +85,33 @@ from .models import CourseDetail
 
 class CourseSearchView(ListView):
     model = CourseDetail
-    template_name = "search_results.html"  # This should only contain course items
+    template_name = "snippet/course_list.html"
     context_object_name = "page_obj"
-    paginate_by = 10
+    paginate_by = 100
 
     def get_queryset(self):
-        query = self.request.GET.get("query", "").strip()
-        search_words = query.split()  # Allow multiple words
+        query = self.request.GET.get("query", None)
 
-        if not search_words:
+        if not query:
+            self.active_coupons = CourseDetail.objects.filter(coupon__is_available=True).count()
             return CourseDetail.objects.select_related("coupon").filter(coupon__is_available=True).order_by("created_at")
 
-        search_filters = Q()
-        for word in search_words:
-            search_filters |= Q(title__icontains=word) | Q(description__icontains=word)
+        self.active_coupons = CourseDetail.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), coupon__is_available=True).count()
+        return CourseDetail.objects.select_related("coupon").filter(Q(title__icontains=query) | Q(description__icontains=query), coupon__is_available=True).order_by("created_at")
 
-        return CourseDetail.objects.select_related("coupon").filter(search_filters, coupon__is_available=True).order_by("created_at")
-
-    def render_to_response(self, context, **response_kwargs):
-        return render(self.request, "snippet/course_list.html", context)
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_coupons"] = self.active_coupons
+        return context
 
 
 class ExploreView(View):
-    template_name = "explore.html"  # Your HTML file
+    template_name = "explore.html"
 
     def get(self, request):
         page_number = request.GET.get("page", 1)  # Default to page 1
-        page_size = request.GET.get("page_size", 10)  # Default to 10 items per page
+        page_size = request.GET.get("page_size", 20)  # Default to 10 items per page
         active_coupons = Coupon.objects.filter(is_available=True).count()
-        print(active_coupons)
 
         # courses = CourseDetail.objects.all().order_by("-created_at")  # Adjust ordering
         courses = CourseDetail.objects.select_related("coupon").all().order_by("created_at").filter(coupon__is_available=True)
