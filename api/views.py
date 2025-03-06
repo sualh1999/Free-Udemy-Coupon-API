@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from django.views import View
 from rest_framework.response import Response
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.exceptions import Throttled
@@ -77,7 +78,7 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -114,8 +115,25 @@ class ExploreView(View):
         active_coupons = Coupon.objects.filter(is_available=True).count()
 
         # courses = CourseDetail.objects.all().order_by("-created_at")  # Adjust ordering
-        courses = CourseDetail.objects.select_related("coupon").all().order_by("created_at").filter(coupon__is_available=True)
+        courses = CourseDetail.objects.select_related("coupon").all().order_by("-created_at").filter(coupon__is_available=True)
         paginator = Paginator(courses, page_size)
         page_obj = paginator.get_page(page_number)
 
         return render(request, self.template_name, {"page_obj": page_obj, "active_coupons": active_coupons})
+ 
+class CourseDetailView(DetailView):
+    model = CourseDetail
+    template_name = "detail.html"
+    context_object_name = "course"
+
+    def get_object(self, queryset=None):
+        course_id = self.kwargs.get("course_id")
+        course = get_object_or_404(
+            CourseDetail.objects.select_related("coupon"),
+            course_id=course_id,
+            coupon__is_available=True
+        )
+        course.who_this_course_is_for = course.who_this_course_is_for.split("\n")
+        course.what_you_will_learn = course.what_you_will_learn.split("\n")
+        course.requirements = course.requirements.split("\n")
+        return course

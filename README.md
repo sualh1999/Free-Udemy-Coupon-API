@@ -1,7 +1,3 @@
-\=============================
-
-
-
 # Free Udemy Courses API
 
 A Django REST Framework (DRF) project that provides free Udemy courses with coupon details. Users must authenticate using a custom token to fetch available courses.
@@ -39,14 +35,6 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 
 
 
-## 🛠 **To-Do List (Planned Features):**
-
-- ✅ Implement token-based authentication.
-- ⏳ Add signup & login functionality.
-- ⏳ Allow users to generate their own tokens.
-- ⏳ Implement user roles & permissions.
-- ⏳ Create an admin panel for managing courses & users.
-- ⏳ Add a frontend UI for easier interaction.
 
 
 
