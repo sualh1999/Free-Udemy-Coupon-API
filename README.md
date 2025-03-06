@@ -1,8 +1,9 @@
 # Free Udemy Courses API
 
-[![Django](https://img.shields.io/badge/Django-4.0+-green.svg)](https://www.djangoproject.com/)
-[![DRF](https://img.shields.io/badge/Django%20REST%20Framework-3.13+-red.svg)](https://www.django-rest-framework.org/)
+[![Django](https://img.shields.io/badge/Django-5.0+-green.svg)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/Django%20REST%20Framework-3.15.2-red.svg)](https://www.django-rest-framework.org/)
 [![HTMX](https://img.shields.io/badge/HTMX-1.9+-blue.svg)](https://htmx.org/)
+[![Django-Allauth](https://img.shields.io/badge/Django--Allauth-64.1+-purple.svg)](https://django-allauth.readthedocs.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A Django REST Framework (DRF) project that provides free Udemy courses with coupon details. This API allows developers to integrate free educational content into their applications, websites, or bots.
@@ -22,7 +23,7 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 
 ## 🌐 Want to Explore Courses?
 
-If you’re looking to explore free Udemy courses rather than using the API, visit the [Explore Page](https://couponhub.srachn.com/explore). Alternatively, you can use the [UdemyBot](https://t.me/udemybot) to get notified whenever courses you're interested in become available.
+If you’re looking to explore free Udemy courses rather than using the API, visit the [Explore Page](https://couponhub.srachn.com/explore). Alternatively, you can use the [UdemyBot](https://t.me/Udemy_corse_bot) to get notified whenever courses you're interested in become available.
 
 ## 🚀 Features
 
@@ -137,6 +138,16 @@ Access the dashboard at `/dashboard` after logging in.
 ## ⏱ Rate Limits
 
 To ensure fair usage, the API implements rate limiting. If you exceed the limit, you'll receive a response with a `Retry-After` header indicating when you can resume making requests.
+
+## 🤝 Contribute
+
+Want to contribute to this project? We welcome contributions of all kinds! Whether you're fixing bugs, improving documentation, or proposing new features, your help is appreciated.
+
+### TODO
+
+- Optimize HTML templates to reduce the HTML percentage in the repository (currently >65%), as GitHub is classifying this as an HTML project rather than Python/Django
+- Add more API endpoints for filtering courses by category
+- Improve test coverage
 
 ## 📩 Contact
 
