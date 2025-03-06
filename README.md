@@ -2,6 +2,7 @@
 
 [![Django](https://img.shields.io/badge/Django-4.0+-green.svg)](https://www.djangoproject.com/)
 [![DRF](https://img.shields.io/badge/Django%20REST%20Framework-3.13+-red.svg)](https://www.django-rest-framework.org/)
+[![HTMX](https://img.shields.io/badge/HTMX-1.9+-blue.svg)](https://htmx.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A Django REST Framework (DRF) project that provides free Udemy courses with coupon details. This API allows developers to integrate free educational content into their applications, websites, or bots.
@@ -17,6 +18,12 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 - [Rate Limits](#-rate-limits)
 - [Contact](#-contact)
 
+---
+
+## 🌐 Want to Explore Courses?
+
+If you’re looking to explore free Udemy courses rather than using the API, visit the [Explore Page](https://couponhub.srachn.com/explore). Alternatively, you can use the [UdemyBot](https://t.me/udemybot) to get notified whenever courses you're interested in become available.
+
 ## 🚀 Features
 
 - **Real-time Coupon Updates**: Access the latest free Udemy courses
@@ -24,8 +31,7 @@ A Django REST Framework (DRF) project that provides free Udemy courses with coup
 - **Custom Token Authentication**: Secure API access with custom tokens
 - **User Activity Tracking**: Monitor API usage with detailed analytics
 - **Web Dashboard**: Visualize your API usage and available coupons
-- **Course Search**: Find specific courses by title or description
-- **High Reliability**: 99.9% uptime guarantee
+- **Course Search**: Find specific courses by title or description(in '/explore' endpoint)
 
 ## 🔌 API Endpoints
 
