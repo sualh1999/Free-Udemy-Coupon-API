@@ -7,7 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CouponHub - Free Udemy Course Coupons API</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        'primary-dark': '#059669',
+                        'primary-light': '#f0fdf4'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .btn {
+            @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200;
+        }
+        .btn-primary { @apply bg-primary text-white hover:bg-primary-dark; }
+        .btn-secondary { @apply bg-gray-100 text-gray-900 hover:bg-gray-200; }
+        .token-box { @apply bg-primary-light border-2 border-dashed border-primary rounded-lg p-4 w-full max-w-lg mx-auto; }
+        .nav-link { @apply text-gray-600 hover:text-primary transition-colors duration-200; }
+        .mobile-menu { @apply fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto; }
+        .mobile-menu.hidden { @apply translate-x-full; }
+        @media (min-width: 768px) { .mobile-menu { display: none !important; } }
+        @media (max-width: 640px) {
+            .token-box { @apply mx-2; }
+            .token-box code { @apply text-xs; }
+        }
         .btn {
             display: inline-flex;
             align-items: center;
@@ -44,116 +73,159 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <div class="max-w-4xl mx-auto p-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
-        <header class="flex justify-between items-center py-6">
-            <h1 class="text-3xl font-bold text-emerald-600">
-                <a href="/">CouponHub</a>
-            </h1>
-            <div class="flex items-center gap-4">
+        <header class="relative flex justify-between items-center py-4 md:py-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-emerald-600">
+                <a href="/" class="hover:opacity-90 transition-opacity">CouponHub</a>
+            </h1> 
+
+            <!-- Mobile menu button -->
+            <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-4">
                 {% if user.is_authenticated %}
-                    <div class="flex items-center gap-4">
-                        <span class="hidden sm:inline text-sm font-medium">Welcome, {{ user.username }}</span>
-                        <a href="/explore" class="text-emerald-600 hover:underline">Explore</a>
-                        <a href="/docs" class="text-emerald-600 hover:underline">Docs</a>
-                        <a href="/dashboard" class="text-emerald-600 hover:underline">Dashboard</a>
-                        <a href="{% url 'account_logout' %}" class="btn btn-secondary">Log Out</a>
-                    </div>
+                    <span class="text-sm font-medium text-gray-600">Welcome, {{ user.username }}</span>
+                    <a href="/explore" class="nav-link">Explore</a>
+                    <a href="/docs" class="nav-link">Docs</a>
+                    <a href="/dashboard" class="nav-link">Dashboard</a>
+                    <a href="{% url 'account_logout' %}" class="btn btn-secondary">Log Out</a>
                 {% else %}
                     <div class="flex items-center gap-3">
-                        <a href="/expolre" class="text-emerald-600 hover:underline">Explore</a>
-                        <a href="{% provider_login_url 'google' %}" class="btn btn-secondary px-3 py-2">
-                            <span class="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#ea4335]">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-                                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-                                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                </svg>
-                            </span>
-                            &nbsp;Google
+                        <a href="/explore" class="text-emerald-600 hover:underline">Explore</a>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-secondary px-3 py-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 48 48">
+                                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                            </svg>
+                            Google
                         </a>
-                        <a href="{% provider_login_url 'github' %}" class="btn btn-secondary px-3 py-2">
-                            <span class="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#333]">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                                    <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-                                </svg>
-                            </span> &nbsp;Github
+                        <a href="{% provider_login_url 'github' %}" class="btn btn-secondary px-3 py-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 fill-[#333]" viewBox="0 0 496 512">
+                                <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+                            </svg>
+                            Github
                         </a>
                     </div>
-                {% endif %}
-            </div>
+                    {% endif %}
+
+            </nav>
         </header>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden">
+            <div class="p-4">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-2xl font-bold text-emerald-600">CouponHub</h1>
+                    <button id="closeMenu" class="p-2 rounded-lg hover:bg-gray-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="flex flex-col gap-4">
+                    {% if user.is_authenticated %}
+                        <span class="text-sm font-medium text-gray-600">Welcome, {{ user.username }}</span>
+                        <a href="/explore" class="nav-link">Explore</a>
+                        <a href="/docs" class="nav-link">Docs</a>
+                        <a href="/dashboard" class="nav-link">Dashboard</a>
+                        <a href="{% url 'account_logout' %}" class="btn btn-secondary w-full">Log Out</a>
+                    {% else %}
+                        <a href="/explore" class="nav-link">Explore</a>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-secondary w-full">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48">
+                                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                            </svg>
+                            Sign in with Google
+                        </a>
+                        <a href="{% provider_login_url 'github' %}" class="btn btn-secondary w-full">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479"></path>
+                            </svg>
+                            Sign in with GitHub
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
 
         <!-- Main Content -->
         <main>
             <!-- Hero Section -->
-            <section class="text-center py-12">
-                <h2 class="text-4xl font-extrabold text-gray-800 mb-6">
+            <section class="text-center py-8 md:py-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 md:mb-6 px-4">
                     Access Udemy Courses for Free
                 </h2>
-                <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                    CouponHub offers a simple API that delivers up-to-date Udemy coupons, Our powerful API empowers developers to seamlessly integrate free, high-quality courses into their platforms without the price tag.
+                <p class="text-base md:text-lg text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
+                    CouponHub offers a simple API that delivers up-to-date Udemy coupons, empowering developers to seamlessly integrate free, high-quality courses into their platforms.
                 </p>
                 
                 {% if not user.is_authenticated %}
-                    <div class="mt-6">
-                        <a href="{% url 'account_signup' %}" class="btn btn-primary px-8 py-3 text-lg">
+                    <div class="mt-4 md:mt-6 px-4">
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary px-6 md:px-8 py-2 md:py-3 text-base md:text-lg">
                             Get Started Now
                         </a>
                     </div>
                 {% endif %}
-                <!-- API Access Section -->
-            {% if user.is_authenticated %}
-            <section class="mb-12 p-4 rounded-lg token-box mx-auto">
-                <div class="flex items-center justify-between gap-4">
-                    <div class="flex-1 relative">
-                        <code id="tokenField" class="p-2 bg-white rounded-md font-mono text-sm break-all">
-                            ••••••••••••••••••••
-                        </code>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="toggleTokenVisibility()" 
-                                class="btn btn-secondary px-4">
-                            <span id="toggleText">Show</span>
-                        </button>
-                        <button onclick="navigator.clipboard.writeText('{{ token }}')" 
-                                class="btn btn-secondary px-4">
-                            Copy
-                        </button>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-600 mt-2 text-center">
-                    🔒Pass this token in the header with the key <code>'token'</code> for authentication.
-                </p>
-            </section>
 
-            
-        {% endif %}
+                {% if user.is_authenticated %}
+                <section class="mb-8 md:mb-12 p-4">
+                    <div class="token-box">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="w-full sm:flex-1">
+                                <code id="tokenField" class="block w-full p-2 bg-white rounded-md font-mono text-sm md:text-base break-all">
+                                    ••••••••••••••••••••
+                                </code>
+                            </div>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <button onclick="toggleTokenVisibility()" class="btn btn-secondary flex-1 sm:flex-none px-3 py-2">
+                                    <span id="toggleText">Show</span>
+                                </button>
+                                <button onclick="navigator.clipboard.writeText('{{ token }}')" class="btn btn-secondary flex-1 sm:flex-none px-3 py-2">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2 text-center">
+                            🔒Pass this token in the header with the key <code>'token'</code> for authentication.
+                        </p>
+                    </div>
+                </section>
+                {% endif %}
             </section>
 
             <!-- Content Sections -->
-            <section class="space-y-8 mb-16">
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-2xl font-semibold mb-4">✨ Why Use Our API?</h3>
-                    <p class="text-gray-600 mb-4">
+            <section class="space-y-6 md:space-y-8 mb-12 md:mb-16 px-4">
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3 md:mb-4">✨ Why Use Our API?</h3>
+                    <p class="text-gray-600 mb-3 md:mb-4">
                         Our API provides real-time access to verified Udemy coupons with:
                     </p>
-                    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                    <ul class="list-disc pl-5 md:pl-6 space-y-2 text-gray-600">
                         <li>Instant updates when new coupons become available</li>
                         <li>Detailed course information including ratings and duration</li>
                         <li>High reliability with 99.9% uptime guarantee</li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-2xl font-semibold mb-4">🚀 Getting Started</h3>
-                    <p class="text-gray-600 mb-4">
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3 md:mb-4">🚀 Getting Started</h3>
+                    <p class="text-gray-600 mb-3 md:mb-4">
                         Follow these simple steps to integrate our API:
                     </p>
-                    <ol class="list-decimal pl-6 space-y-4 text-gray-600">
+                    <ol class="list-decimal pl-5 md:pl-6 space-y-3 md:space-y-4 text-gray-600">
                         <li>Register for a free account</li>
-                        <li>Retrieve your API token from the above</li>
+                        <li>Retrieve your API token from the dashboard</li>
                         <li>Make authenticated requests to our endpoints</li>
                         <li>Implement the coupon redemption flow in your application</li>
                     </ol>
@@ -162,10 +234,10 @@
         </main>
 
         <!-- Footer -->
-        <footer class="mt-12 text-center text-sm text-gray-500 border-t pt-8">
-            <div class="mb-2">
+        <footer class="mt-8 md:mt-12 text-center text-sm text-gray-500 border-t pt-6 md:pt-8 px-4">
+            <div class="mb-2 space-x-2">
                 <a href="/docs" class="text-emerald-600 hover:underline">API Documentation</a>
-                |
+                <span>|</span>
                 <a href="/dashboard" class="text-emerald-600 hover:underline">Dashboard</a>
             </div>
             <p>&copy; 2025 CouponHub. Not affiliated with Udemy.</p>
@@ -186,6 +258,18 @@
             toggleText.textContent = tokenVisible ? 'Hide' : 'Show';
         }
 
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
     </script>
 </body>
 </html>

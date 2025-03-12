@@ -1,10 +1,10 @@
 <div class="flex flex-wrap justify-between gap-3 p-4">
-  <div class="flex min-w-72 flex-col gap-3">
+  <div class="flex w-full sm:min-w-72 flex-col gap-3">
     <p class="text-[#A18249] text-base font-normal leading-normal">There's {{ active_coupons }} available coupons</p>
   </div>
 </div>
 
-<div class="grid grid-cols-[repeat(auto-fit,minmax(208px,1fr))] gap-3 p-4">
+<div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-2 sm:p-4">
   {% for course in page_obj %}
       {% include "snippet/course_div.html" with course=course %}
   {% endfor %}
